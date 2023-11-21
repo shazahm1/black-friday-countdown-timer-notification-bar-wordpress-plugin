@@ -82,9 +82,19 @@ function w357_black_friday_countdown_notification_bar_html() {
     $text_top    = !empty( get_option( 'bf_countdown_main_text' ) ) ? wp_kses_post( get_option( 'bf_countdown_main_text' ) ) : '<span class="blackfriday-txt">BLACK FRIDAY</span> Special Offer! 50% OFF!';
     $text_bottom = !empty( get_option( 'bf_countdown_coupon_text' ) ) ? wp_kses_post( get_option( 'bf_countdown_coupon_text' ) ) : 'Use the discount coupon code:';
     $coupon_code = !empty( get_option( 'bf_countdown_coupon_code' ) ) ? esc_attr( get_option( 'bf_countdown_coupon_code' ) ) : '';
-    $button_text = !empty( get_option( 'bf_countdown_button_text' ) ) ? esc_attr( get_option( 'bf_countdown_button_text' ) ) : 'Buy Now';
-    $button_url  = !empty( get_option( 'bf_countdown_button_url' ) ) ? esc_url( get_option( 'bf_countdown_button_url' ) ) : 'https://www.your-domain.com/pricing';
+    $button_text = !empty( get_option( 'bf_countdown_button_text' ) ) ? esc_attr( get_option( 'bf_countdown_button_text' ) ) : '';
+    $button_url  = !empty( get_option( 'bf_countdown_button_url' ) ) ? esc_url( get_option( 'bf_countdown_button_url' ) ) : '';
+	$button      = '';
     $maybe_hide  = empty( get_option( 'bf_countdown_coupon_code' ) ) ? 'blackfriday-hide-coupon-line' : '';
+
+	if ( 0 < strlen( $button_text ) && 0 < strlen( $button_url ) ) {
+
+		$button = <<<BUTTON
+<div class="blackfriday-btn-outer"> 
+	<a href="{$button_url}" class="blackfriday-buynow-btn">{$button_text}</a>
+</div>
+BUTTON;
+	}
 
     $html = <<<HTML
     <div id="blackfriday-html-toolbar" class="blackfriday-html-toolbar">
@@ -103,10 +113,7 @@ function w357_black_friday_countdown_notification_bar_html() {
                         {$text_bottom} <span class="blackfriday-coupon-code">{$coupon_code}</span>
                     </div>
                 </div>
-                
-                <div class="blackfriday-btn-outer"> 
-                    <a href="{$button_url}" class="blackfriday-buynow-btn">{$button_text}</a>
-                </div>
+                {$button}
             </div>
         </div>
     </div>
